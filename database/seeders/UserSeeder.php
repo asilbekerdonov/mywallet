@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 class UserSeeder extends Seeder
@@ -17,12 +16,10 @@ class UserSeeder extends Seeder
             'email' => 'a@',
             'balance' => '0',
             'card' => '0000 0000 0000 0000',
-            'password' => password_hash('777', PASSWORD_DEFAULT),
+            'password' => '777',
         ]);
 
 
-        // $this->call([  
-        //     UserSeeder::class,
-        // ]);  
+     
     }
 }
