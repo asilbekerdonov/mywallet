@@ -2,10 +2,9 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class PaymentViewTest extends TestCase
 {
@@ -29,12 +28,12 @@ class PaymentViewTest extends TestCase
         // Проверяем, что страница содержит нужные элементы
         // Проверяем, что отображаются все пользователи (включая текущего)
         $allUsers = User::all();
-        
+
         foreach ($allUsers as $user) {
             $response->assertSee($user->name, false); // если есть имя пользователя
-            $response->assertSee((string)$user->id, false); // обязательно преобразуем ID в строку
-        } 
-       
+            $response->assertSee((string) $user->id, false); // обязательно преобразуем ID в строку
+        }
+
     }
 
     public function test_payment_route_exists_and_is_accessible()
@@ -43,16 +42,16 @@ class PaymentViewTest extends TestCase
         $this->actingAs($user);
 
         $response = $this->get('/payment');
-        
+
         // Проверяем, что маршрут существует и доступен
         $response->assertOk();
-        
+
         // Или проверяем через именованный маршрут
         $response = $this->get(route('payment'));
         $response->assertOk();
     }
 
-    public function test_user_comes_to_window_page() 
+    public function test_user_comes_to_window_page()
     {
         $user = User::factory()->create();
 
@@ -63,6 +62,4 @@ class PaymentViewTest extends TestCase
         // Проверяем успешный статус ответа
         $response->assertStatus(200);
     }
-
-    
 }

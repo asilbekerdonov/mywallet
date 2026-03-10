@@ -13,11 +13,11 @@ class LoginViewTest extends TestCase
     {
         // Act
         $response = $this->getLoginPage();
-        
+
         // Assert
         $this->assertPageLoadsSuccessfully($response);
     }
-    
+
     /**
      * Проверяет отображение ошибок валидации на странице логина
      */
@@ -25,14 +25,14 @@ class LoginViewTest extends TestCase
     {
         // Arrange
         $this->simulateFailedLoginAttempt();
-        
+
         // Act
         $response = $this->getLoginPage();
-        
+
         // Assert
         $this->assertValidationErrorsDisplayed($response);
     }
-    
+
     /**
      * Проверяет производительность загрузки страницы логина
      */
@@ -41,11 +41,11 @@ class LoginViewTest extends TestCase
         // Act & Assert
         $this->assertPageLoadsQuickly();
     }
-    
+
     // ======================
     // HELPER METHODS
     // ======================
-    
+
     /**
      * Открывает страницу логина
      */
@@ -53,7 +53,7 @@ class LoginViewTest extends TestCase
     {
         return $this->get('/login');
     }
-    
+
     /**
      * Проверяет успешную загрузку страницы
      */
@@ -62,7 +62,7 @@ class LoginViewTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('auth.login');
     }
-    
+
     /**
      * Симулирует неудачную попытку входа
      */
@@ -73,7 +73,7 @@ class LoginViewTest extends TestCase
             'password' => ['The password field is required.'],
         ]));
     }
-    
+
     /**
      * Проверяет отображение ошибок валидации
      */
@@ -82,24 +82,24 @@ class LoginViewTest extends TestCase
         $response->assertSee('The username field is required.', false);
         $response->assertSee('The password field is required.', false);
     }
-    
+
     /**
      * Проверяет что страница загружается быстро
      */
     private function assertPageLoadsQuickly()
     {
         $maxLoadTimeMs = 500;
-        
+
         $startTime = microtime(true);
         $response = $this->getLoginPage();
         $endTime = microtime(true);
-        
+
         $loadTimeMs = ($endTime - $startTime) * 1000;
-        
+
         $response->assertStatus(200);
         $this->assertLessThan(
-            $maxLoadTimeMs, 
-            $loadTimeMs, 
+            $maxLoadTimeMs,
+            $loadTimeMs,
             "Login page should load within {$maxLoadTimeMs}ms, but took {$loadTimeMs}ms"
         );
     }

@@ -22,17 +22,17 @@ class PaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
-             'amount' => 'required|integer|min:500',
-            
+            'amount' => 'required|integer|min:500',
+
         ];
     }
 
     public function messages()
     {
         return [
-                'amount.required' => 'Введите сумму',
-                'amount.integer'  => 'Введите только цифры',
-                'amount.min'      => 'Минимальная сумма для перевода — не меньше 500',
+            'amount.required' => 'Введите сумму',
+            'amount.integer' => 'Введите только цифры',
+            'amount.min' => 'Минимальная сумма для перевода — не меньше 500',
         ];
     }
 }

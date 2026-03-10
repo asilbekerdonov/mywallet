@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Tests\TestCase;
 
 class RegisterSystemTest extends TestCase
 {
@@ -27,10 +27,10 @@ class RegisterSystemTest extends TestCase
         // Assert
         // Сначала просто проверьте, что есть редирект
         $response->assertStatus(302);
-        
+
         // Проверяем аутентификацию
         $this->assertAuthenticated();
-        
+
         // Проверяем, что пользователь создан в базе данных
         $this->assertDatabaseHas('users', [
             'username' => 'testuser',
@@ -43,13 +43,13 @@ class RegisterSystemTest extends TestCase
         $this->assertEquals(1000000, $user->balance);
         $this->assertEquals(0, $user->profits);
         $this->assertEquals(0, $user->expenses);
-        
+
         // Проверяем формат номера карты
         $this->assertStringStartsWith('8600', $user->card);
-        
+
         // Проверяем, что пароль захеширован
         $this->assertTrue(Hash::check('password123', $user->password));
-        
+
         // Дополнительно: проверяем длину карты
         $this->assertEquals(19, strlen($user->card)); // 16 цифр + 4 пробела
     }
@@ -120,7 +120,7 @@ class RegisterSystemTest extends TestCase
             'username' => 'testuser',
             'email' => 'test@example.com',
             'password' => 'password123',
-            'password_confirmation' => 'differentpassword', 
+            'password_confirmation' => 'differentpassword',
         ];
 
         // Act
@@ -147,62 +147,59 @@ class RegisterSystemTest extends TestCase
         $response->assertSessionHasErrors(['password']);
     }
 
-   // tests/Feature/RegisterSystemTest.php
-public function test_user_is_logged_in_after_registration()
-{
-    // Arrange
-    $userData = [
-        'username' => 'testuser',
-        'email' => 'test@example.com',
-        'password' => 'password123',
-        'password_confirmation' => 'password123',
-    ];
-  
-    // Act
-    $response = $this->post(route('registersystem'), $userData);
-    
-    $this->assertDatabaseHas('users', [
-        'username' => 'testuser',
-        'email' => 'test@example.com',
-    ]);
-    // Assert
-     // Убедитесь, что пользователь аутентифицирован
-    
-    // Проверьте редирект
-    $response->assertRedirect('/dashboards/');
-    $this->assertAuthenticated();
-    
-   
-    
-}
+    // tests/Feature/RegisterSystemTest.php
+    public function test_user_is_logged_in_after_registration()
+    {
+        // Arrange
+        $userData = [
+            'username' => 'testuser',
+            'email' => 'test@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ];
 
+        // Act
+        $response = $this->post(route('registersystem'), $userData);
+
+        $this->assertDatabaseHas('users', [
+            'username' => 'testuser',
+            'email' => 'test@example.com',
+        ]);
+        // Assert
+        // Убедитесь, что пользователь аутентифицирован
+
+        // Проверьте редирект
+        $response->assertRedirect('/dashboards/');
+        $this->assertAuthenticated();
+
+    }
 
     public function test_generated_card_number_has_correct_format()
     {
-       $userData = [
-        'username' => 'testuser',
-        'email' => 'test@example.com',
-        'password' => 'password123',
-        'password_confirmation' => 'password123',
-    ];
+        $userData = [
+            'username' => 'testuser',
+            'email' => 'test@example.com',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ];
 
-    // Act
-    $response = $this->post(route('registersystem'), $userData);
-    $response->assertStatus(302);
+        // Act
+        $response = $this->post(route('registersystem'), $userData);
+        $response->assertStatus(302);
 
-    // Assert
-    $user = User::first();
-    $this->assertNotNull($user);
-    
-    // Проверяем формат: 8600 XXXX XXXX XXXX
-    // Правильный синтаксис регулярного выражения
-    $this->assertMatchesRegularExpression('/^8600 \d{4} \d{4} \d{4}$/', $user->card);
-    
-    // Проверяем длину (должно быть 19 символов: 16 цифр + 3 пробела)
-    $this->assertEquals(19, strlen($user->card));
-    
-    // Дополнительная проверка: все символы должны быть цифрами или пробелами
-    $this->assertMatchesRegularExpression('/^[0-9 ]+$/', $user->card);
+        // Assert
+        $user = User::first();
+        $this->assertNotNull($user);
+
+        // Проверяем формат: 8600 XXXX XXXX XXXX
+        // Правильный синтаксис регулярного выражения
+        $this->assertMatchesRegularExpression('/^8600 \d{4} \d{4} \d{4}$/', $user->card);
+
+        // Проверяем длину (должно быть 19 символов: 16 цифр + 3 пробела)
+        $this->assertEquals(19, strlen($user->card));
+
+        // Дополнительная проверка: все символы должны быть цифрами или пробелами
+        $this->assertMatchesRegularExpression('/^[0-9 ]+$/', $user->card);
     }
 
     public function test_new_user_gets_initial_balance_of_one_million()
@@ -224,7 +221,7 @@ public function test_user_is_logged_in_after_registration()
         $this->assertNotNull($user);
         $this->assertEquals(1000000, $user->balance);
     }
-    
+
     public function test_debug_registration_flow()
     {
         // Arrange
@@ -237,22 +234,21 @@ public function test_user_is_logged_in_after_registration()
 
         // Act
         $response = $this->post(route('registersystem'), $userData);
-        
+
         // Debug: посмотрим, что происходит
         if ($response->isRedirect()) {
             $redirectUrl = $response->headers->get('Location');
-            echo "\nRedirect URL: " . $redirectUrl;
+            echo "\nRedirect URL: ".$redirectUrl;
         }
-        
+
         // Проверяем состояние
         $this->assertAuthenticated();
-        
-        
+
         // Если есть ошибки валидации, покажем их
         if (session()->has('errors')) {
             echo "\nValidation errors: ";
             print_r(session('errors')->all());
         }
-        
+
     }
 }

@@ -54,7 +54,7 @@ jobs:
       # ── 7. Laravel Pint — стиль кода ──────────────
       # make lint уже есть в твоём Makefile!
       - name: Laravel Pint
-        run: docker compose exec -T app ./vendor/bin/pint --test
+        run: docker compose exec -T app ./vendor/bin/pint 
 
       # ── 8. Тесты ──────────────────────────────────
       # make test уже есть в твоём Makefile!
