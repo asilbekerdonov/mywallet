@@ -16,7 +16,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-
+      # ── 2. Создаём .env из .env.example ───────────
+      # GitHub Actions не имеет твоего .env — создаём его
+      - name: Copy .env
+        run: cp .env.example .env
 
       # ── 3. Поднимаем Docker (mysql + app + nginx) ─
       # --wait ждёт healthcheck mysql (ты его уже настроил!)
