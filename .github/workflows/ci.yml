@@ -32,19 +32,11 @@ jobs:
           docker compose exec -T app php artisan key:generate
 
 
-# ── 5. Ждём MySQL и запускаем миграции ────────
-      - name: Wait for MySQL
-        run: |
-          docker compose exec -T app sh -c '
-            for i in $(seq 1 30); do
-              php -r "new PDO(\"mysql:host=mysql;port=3306;dbname=Wallet\", \"root\", \"root\");" 2>/dev/null && echo "MySQL ready!" && break
-              echo "Waiting for MySQL... attempt $i"
-              sleep 2
-            done
-          '
-
+      # ── 5. Запускаем миграции ──────────────────────
+      # --force нужен для non-interactive окружения
       - name: Run migrations
         run: docker compose exec -T app php artisan migrate --force
+
       # ── 6. Проверка синтаксиса PHP ─────────────────
       - name: PHP syntax check
         run: |
