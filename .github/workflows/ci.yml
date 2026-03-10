@@ -16,10 +16,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ── 2. Создаём .env из .env.example ───────────
-      # GitHub Actions не имеет твоего .env — создаём его
-      - name: Copy .env
-        run: cp .env.example .env
+  
 
       # ── 3. Поднимаем Docker (mysql + app + nginx) ─
       # --wait ждёт healthcheck mysql (ты его уже настроил!)
@@ -28,8 +25,12 @@ jobs:
         timeout-minutes: 5
 
       # ── 4. Генерируем APP_KEY внутри контейнера ───
+
       - name: Generate app key
-        run: docker compose exec -T app php artisan key:generate
+        run: |
+          docker compose exec -T app cp .env.example .env
+          docker compose exec -T app php artisan key:generate
+
 
       # ── 5. Запускаем миграции ──────────────────────
       # --force нужен для non-interactive окружения
