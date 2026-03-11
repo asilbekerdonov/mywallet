@@ -65,12 +65,8 @@ jobs:
         run: docker compose exec -T app ./vendor/bin/pint --test
 
       - name: Run PHPUnit tests
-        run: |
-          docker compose exec -T app \
-            php artisan test --env=testing
-            php artisan test --filter="registration requires all" -v
-
-    
+        run: docker compose exec -T app php artisan test --env=testing
+        
       - name: Show logs on failure
         if: failure()
         run: docker compose logs app mysql
