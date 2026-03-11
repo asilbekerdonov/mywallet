@@ -6,6 +6,7 @@ use Tests\TestCase;
 
 class LoginViewTest extends TestCase
 {
+    
     /**
      * Проверяет доступность страницы логина
      */
