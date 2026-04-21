@@ -15,7 +15,11 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 // User
 Route::get('/account', [DashboardController::class, 'account'])->name('account');
 Route::put('/users/{id}', [DashboardController::class, 'passwordupdate'])->name('passwordupdate');
+// для update (фото + username + email)
+Route::put('/users/{id}', [DashboardController::class, 'update'])->name('users.update');
 
+// для смены пароля
+Route::put('/users/{id}/password', [DashboardController::class, 'passwordupdate'])->name('passwordupdate');
 Route::resources([
     'dashboards' => DashboardController::class,
 
