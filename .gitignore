@@ -1,0 +1,88 @@
+# Environment files
+.env
+.env.*
+!.env.example
+.env.local
+.env.production
+
+# Composer dependencies
+/vendor/
+composer.phar
+
+# Node dependencies
+/node_modules/
+package-lock.json
+yarn.lock
+
+# Compiled assets
+/public/css/
+/public/js/
+/public/mix-manifest.json
+/public/build/
+
+# Storage
+/storage/*.key
+/storage/*.logs
+/storage/framework/cache/
+/storage/framework/sessions/
+/storage/framework/testing/
+/storage/framework/views/
+/storage/logs/
+
+# PHPUnit
+/.phpunit.result.cache
+/.phpunit.cache/
+
+# IDE files
+/.idea/
+/.vscode/
+*.iml
+*.swp
+*.swo
+.DS_Store
+
+# Laravel specific
+/.env.backup
+/.php_cs.cache
+/.php_cs.dist
+/.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+*.log
+/.vagrant
+
+# Testing
+/coverage/
+/coverage.xml
+/clover.xml
+/junit.xml
+
+# Laravel Sail
+/docker-compose.override.yml
+/docker-compose.yml
+
+# Debug
+/.debugbar
+
+# Temporary files
+/tmp/
+/temp/
+
+# Debugbar
+/storage/debugbar/
+
+# Telescope (if using Laravel Telescope)
+/storage/telescope/
+
+# Horizon (if using Laravel Horizon)
+/storage/horizon/
+
+# Scheduler lock files
+/storage/framework/schedule-*
+
+# Custom files
+/.env.testing
+/.env.ci
+/.dockerignore
+/.env.dusk
+/.env.dusk.local
